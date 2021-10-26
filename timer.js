@@ -13,19 +13,31 @@ class Timer {
         this.start();
     }
 
+//     start() {
+//          setInterval(() => {
+//             const deltaTime = this.targetDate - Date.now();
+//             this.updateClockface(this.getTimeComponents(deltaTime));
+//                 }, 1000);
+//         clearInterval();
+//     }
     start() {
-        setInterval(() => {
-            const deltaTime = this.targetDate - Date.now();
-            this.updateClockface(this.getTimeComponents(deltaTime));
-        }, 1000);
-    }
-
+        if (Date.now() < this.targetDate) {
+                let timerId = setInterval(() => {
+                const deltaTime = this.targetDate - Date.now();
+                this.updateClockface(this.getTimeComponents(deltaTime));
+            }, 1000);
+        }
+        else {
+            clearInterval(timerId);
+        }
+    } 
     
     updateClockface({ days, hours, mins, secs }) {
     this.refs.daysTimer.innerHTML = days;
     this.refs.hoursTimer.innerHTML = hours;
     this.refs.minutesTimer.innerHTML = mins;
-    this.refs.secondsTimer.innerHTML = secs;
+        this.refs.secondsTimer.innerHTML = secs;
+  
 }
     
     getTimeComponents(time) {
@@ -44,3 +56,4 @@ const CountDownTimer = new Timer({
     selector: '#timer-1',
     targetDate: new Date('Oct 31, 2021'),
 });
+
